@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Springboot + Jsp</title>
+
+    <!--<script type="text/javascript" src="classpath:/resources/static/jquery-3.3.1.js"></script>-->
+    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+    <script>
+        function sendAjax() {
+            var cityname = $("#cityName").val();
+            var json_data={
+                "cityName":cityname
+            };
+            $.ajax(
+                {
+                    url: "users",
+                    data:{"cityName":cityname},
+                    type: "get",
+                    dataType: "json",
+                    contentType : "application/json;charset=utf-8",
+                    async:false,
+                    success: function (data) {
+                        debugger
+                        var item;
+                        $.each(data,function(i,result){
+                            debugger
+                            item=
+                                "<tr><td>"+result['id']+"</td><td>"+result['username']+"</td><td>"+result['age']+"</td></tr>";
+                            $('#userList').append(item);
+                        });
+
+
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+        }
+    </script>
+
+</head>
+<body>
+
+${hello}
+
+<!--<p>启动方式</p>
+<ol>
+    <li>spring-boot:run</li>
+    <li>打包成war，通过 java -jar demo-0.0.1-SNAPSHOT.war启动</li>
+</ol>
+<p>jar包运行的时候会404错误，因为默认jsp不会被拷贝到程序包中，而war包里面有包含了jsp，所以没问题。</p>
+<p>另外springboot官方并不推荐使用jsp</p>-->
+<input name="cityName" id="cityName" type="text"/>
+<button onclick="sendAjax()">提交</button>
+
+<table id="userList">
+    <tr><th width="5">id</th><th width="20">name</th><th width="10">age</th></tr>
+</table>
+
+</body>
+</html>

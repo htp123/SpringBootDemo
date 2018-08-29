@@ -6,13 +6,23 @@ package com.example.controller;
 import com.example.bean.User;
 import com.example.bean.JsonResult;
 import com.example.service.UserService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.util.Convert.objectToMap;
 
 /*@RestController*/
 @Controller
@@ -60,24 +70,44 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "users", method = RequestMethod.GET)
-   /* @ResponseBody*/
-    public @ResponseBody ResponseEntity<JsonResult> getUserList (@PathParam("cityName")String city){
-        System.out.println("ajax test ... enter users:cityName:"+city);
-        JsonResult r = new JsonResult();
+//    public @ResponseBody ResponseEntity<JsonResult> getUserList (@RequestParam Map<String,Object> request)
+    public @ResponseBody List<User> getUserList (@RequestParam Map<String,Object> request)
+    {
+        String cityName =(String)request.get("cityName");
+        System.out.println("cityName:"+cityName);
+        /*JsonResult r = new JsonResult();*/
         try {
             List<User> users = userService.getUserList();
             for (User user:users) {
-                /*System.out.println("user:"+user.getUsername());*/
+                System.out.println("user:"+user.getUsername());
             }
-            r.setResult(users);
-            r.setStatus("ok");
+            return users;
+          /*  r.setResult(users);
+            r.setStatus("ok...");*/
         } catch (Exception e) {
-            r.setResult(e.getClass().getName() + ":" + e.getMessage());
-            r.setStatus("error");
+            /*r.setResult(e.getClass().getName() + ":" + e.getMessage());
+            r.setStatus("error");*/
             e.printStackTrace();
         }
-        return ResponseEntity.ok(r);
+       return null;
+//        return ResponseEntity.ok(r);
     }
+
+
+/*  public ResponseEntity<JsonResult> users(HttpServletRequest request){
+      String cityName = (String)request.getParameter("cityName");
+      System.out.println("cityName:"+cityName);
+      return null;
+  }*/
+
+   /* public String getData(HttpServlettRequest request){
+        String ss= request.getParameter(“xxx”); //ss=>xx
+}
+
+    public String getData(){
+        HttpServletRequest request=  ServletActionContext.getRequest();
+        String ss =  request.getParameter("xxx");  //ss=>xx
+    }*/
 
     /**
      * 添加用户
