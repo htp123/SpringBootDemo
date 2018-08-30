@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用ajax传json参数，获取用户总数及列表</title>
+    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+</head>
+
+<body>
+
+<input name="cityName" id="cityName" type="text"/>
+<button onclick="sendAjax()">提交</button>
+<table id="userList">
+    <tr><th id="userListCnt" width="100px"></th></tr>
+    <tr></tr>
+    <tr><th width="5px" >id</th><th width="20px">name</th><th width="10px">age</th></tr>
+</table>
+
+<script>
+    function sendAjax() {
+//        debugger
+        var cityname = $("#cityName").val();
+        var json_data={
+            "cityName":cityname,
+            "operator":"hutp",
+            "desc":"查询用户列表"
+        };
+        $.ajax(
+            {
+                url: "getUserList",
+                data:JSON.stringify(json_data),
+                type: "post",
+                dataType: "json",
+                contentType : "application/json;charset=utf-8",
+                async:false,
+                /*var jsonResp = JSON.parse(data)
+                 var jsonResp = resp.toJSON()
+                 var resp = eval("("+data+")");
+                 var jsonResp = JSON.parse(resp)
+                 var resp = data.toString()
+                 var number = jsonResp.getAttribute("number")
+                 var userList = jsonResp.getAttribute("userList")
+                 var jsonResp = JSON.parse(data)*/
+                success: function (data) {
+                var number = data.number
+                var userList = data.userList
+                debugger
+                if(number > 0) {
+                    var item;
+                    $.each(userList, function (loc, result) {
+//                        debugger
+                        item = "<tr><td width='5px' align='center'>" + result['id'] + "</td><td width='20px'>" + result['username'] + "</td><td width='20px'>" + result['age'] + "</td></tr>";
+                        $('#userList').append(item);
+                    });
+                    var item = "共" +number +"条用户信息"
+                    $('#userListCnt').html(item)
+                }else{
+                    $('#userCntText').html('0')
+                }
+            },
+                error: function () {
+                    alert("error");
+                }
+            });
+    }
+
+</script>
+
+</body>
+</html>
