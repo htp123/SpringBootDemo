@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+    <script>
+        function mySubmit(){
+            var username = $('#username').val();
+            var password = $('#password').val();
+            var jsonReq = {
+                "userName":username,
+                "password":password
+            }
+            $.ajax(
+                {
+                    url: "checkLogin",
+                    data:JSON.stringify(json_data),
+                    type: "post",
+                    dataType: "json",
+                    contentType : "application/json;charset=utf-8",
+                    async:false,
+                    success: function (data) {
+
+                      alert("success")
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+
+        }
+        function myReset() {
+            
+        }
+
+    </script>
+</head>
+<body>
+username:<input name="userName" id="userName" type="text" onclick="mySubmit()">
+<br>
+password:<input name="password" id="password" type="password" onclick="myReset">
+<br><br>
+<button type="submit" name="btnSubmit" style="height: 30px;width: 100px"  >submit</button>
+<button type="reset" name="btnReset" style="height: 30px;width: 100px">reset</button>
+</body>
+</html>
