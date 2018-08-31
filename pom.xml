@@ -25,21 +25,6 @@
 	</properties>
 
 <dependencies>
-<!--	<dependency>
-		<groupId>org.apache.tomcat</groupId>
-		<artifactId>servlet-api</artifactId>
-		<version>6.0.53</version>
-	</dependency>-->
-		<!-- <dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>-->
-		<!--<dependency>
-		<groupId>org.apache.tomcat.embed</groupId>
-		<artifactId>tomcat-embed-jasper</artifactId>
-		<scope>provided</scope>
-		</dependency>-->
 
 		<!--前端模板templates目录下文件需用该模板才可访问-->
 		<dependency>
@@ -69,6 +54,7 @@
 			<artifactId>spring-session-jdbc</artifactId>
 		</dependency>
 	-->
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -84,11 +70,6 @@
 		<artifactId>javax.servlet-api</artifactId>
 		<version>3.1.0</version>
 	</dependency>
-	<!--<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot</artifactId>
-		<version>1.5.9.RELEASE</version>
-	</dependency>-->
 	<dependency>
 		<groupId>net.sf.json-lib</groupId>
 		<artifactId>json-lib</artifactId>
@@ -116,6 +97,28 @@
 		<version>1.0.3</version>
 	</dependency>
 
+	<!-- shiro -->
+	<dependency>
+		<groupId>net.sourceforge.nekohtml</groupId>
+		<artifactId>nekohtml</artifactId>
+		<version>1.9.22</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.shiro</groupId>
+		<artifactId>shiro-spring</artifactId>
+		<version>1.4.0</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-jpa</artifactId>
+	</dependency>
+
+	<!-- 热部署-->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-devtools</artifactId>
+		<optional>true</optional>
+	</dependency>
 </dependencies>
 
 	<build>
