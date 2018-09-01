@@ -1,9 +1,11 @@
 package com.example.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2018/8/31.
  */
-public class SysUsersRoles {
+public class SysUsersRoles implements Serializable {
     private int userId;
     private int roleId;
 

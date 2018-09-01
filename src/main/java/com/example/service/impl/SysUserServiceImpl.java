@@ -22,6 +22,12 @@ public class SysUserServiceImpl implements ISysUserService {
         return user;
     }
 
+    @Override
+    public List<SysRole> getRoleListByUser(SysUser sysUser) {
+        List<SysRole> roleList = sysUserMapper.getRolesByUser(sysUser);
+        return roleList;
+    }
+
    /* @Override
     public List<SysRole> getRoleList(SysUser sysUser) {
         return null;

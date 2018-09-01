@@ -3,6 +3,7 @@ package com.example.shiro;
 import com.example.bean.SysPermission;
 import com.example.bean.SysRole;
 import com.example.bean.SysUser;
+import com.example.service.ISysRoleService;
 import com.example.service.ISysUserService;
 import com.example.service.impl.SysUserServiceImpl;
 import org.apache.shiro.authc.AuthenticationException;
@@ -22,16 +23,18 @@ import org.springframework.context.annotation.Bean;
  */
 public class MyShiroRealm extends AuthorizingRealm {
 
-    SysUserServiceImpl sysUserService;
+    ISysUserService sysUserService;
+    ISysRoleService sysRoleService;
     //权限校验
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         SysUser user  = (SysUser)principals.getPrimaryPrincipal();
-        for(SysRole role:user.getRoleList()){
+//        for(SysRole role:user.getRoleList())
+            for(SysRole role:sysUserService.getRoleListByUser(user)){
             authorizationInfo.addRole(role.getRole());
-            for(SysPermission p:role.getPermissions()){
+            for(SysPermission p:sysRoleService.getPermissionByRole(role)){
                 authorizationInfo.addStringPermission(p.getPermission());
             }
         }

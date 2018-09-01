@@ -11,5 +11,5 @@ import java.util.List;
 public interface  ISysUserService {
     SysUser findByUsername(String userName);
 
-//    List<SysRole> getRoleList(SysUser sysUser);
+    List<SysRole> getRoleListByUser(SysUser sysUser);
 }

@@ -1,11 +1,14 @@
 package com.example.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2018/8/31.
  */
-public class SysPermission {
-    private int id;
-    private String permission;
+public class SysPermission implements Serializable
+{
+    private int id;//unique
+    private String permission;//unique
     private int available;
 
     public int getId() {

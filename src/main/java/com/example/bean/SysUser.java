@@ -1,21 +1,22 @@
 package com.example.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2018/8/31.
  */
-public class SysUser {
-    private int id;
-    private String userName;
+public class SysUser implements Serializable {
+    private int id;//unique
+    private String userName;//unique
     private String password;
     private String salt;
     private int locked;
 
-    public List<SysRole> getRoleList(){
+  /*  public List<SysRole> getRoleList(){
 
         return null;
-    }
+    }*/
 
     public int getId() {
         return id;

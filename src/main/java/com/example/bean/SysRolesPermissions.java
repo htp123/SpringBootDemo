@@ -1,25 +1,27 @@
 package com.example.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2018/8/31.
  */
-public class SysRolesPermissions {
-    private int roleId;
-    private int permissionId;
+public class SysRolesPermissions implements Serializable {
+    private String roleName;//unique
+    private String permission;//unique
 
-    public int getRoleId() {
-        return roleId;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
-    public int getPermissionId() {
-        return permissionId;
+    public String getPermission() {
+        return permission;
     }
 
-    public void setPermissionId(int permissionId) {
-        this.permissionId = permissionId;
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 }
