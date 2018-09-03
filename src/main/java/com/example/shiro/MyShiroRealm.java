@@ -23,7 +23,10 @@ import org.springframework.context.annotation.Bean;
  */
 public class MyShiroRealm extends AuthorizingRealm {
 
+    @Autowired
     ISysUserService sysUserService;
+
+    @Autowired
     ISysRoleService sysRoleService;
     //权限校验
     @Override

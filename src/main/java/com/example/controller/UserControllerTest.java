@@ -49,8 +49,3 @@ public class UserControllerTest {
     }
 
 }
-
- /*       for(int i = 0; i< json.size() ; i++)
-        {
-            System.out.println("json[" + i + "]" + json.get(i).toString());
-        }*/

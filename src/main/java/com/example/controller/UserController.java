@@ -4,25 +4,15 @@ package com.example.controller;
  * Created by Administrator on 2018/8/27.
  */
 import com.example.bean.User;
-import com.example.bean.JsonResult;
+import com.example.util.JsonResult;
 import com.example.service.UserService;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.example.util.Convert.objectToMap;
 
 /*@RestController*/
 @Controller

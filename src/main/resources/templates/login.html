@@ -1,21 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+错误信息：<h4 th:text="${msg}"></h4>
+<form action="/login" method="post">
+    <p>账号：<input type="text" name="username" value="admin"/></p>
+    <p>密码：<input type="text" name="password" value="123456"/></p>
+    <p><input type="submit" value="登录"/></p>
+</form>
+</body>
+</html>
+
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>login</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>login</title>
     <script type="text/javascript" src="jquery-3.3.1.js"></script>
     <script>
         function mySubmit(){
-            var username = $('#username').val();
+            debugger
+            var username = $('#userName').val();
             var password = $('#password').val();
             var jsonReq = {
                 "userName":username,
                 "password":password
             }
+            debugger
             $.ajax(
                 {
-                    url: "checkLogin",
-                    data:JSON.stringify(json_data),
+                    url: "login",
+                    data:JSON.stringify(jsonReq),
                     type: "post",
                     dataType: "json",
                     contentType : "application/json;charset=utf-8",
@@ -29,19 +49,21 @@
                     }
                 });
 
-        }
+        };
         function myReset() {
-            
-        }
+
+        };
 
     </script>
 </head>
+
 <body>
-username:<input name="userName" id="userName" type="text" onclick="mySubmit()">
+username:<input name="userName" id="userName" type="text" >
 <br>
-password:<input name="password" id="password" type="password" onclick="myReset">
+password:<input name="password" id="password" type="password" >
 <br><br>
-<button type="submit" name="btnSubmit" style="height: 30px;width: 100px"  >submit</button>
-<button type="reset" name="btnReset" style="height: 30px;width: 100px">reset</button>
+<button type="submit" name="btnSubmit" style="height: 30px;width: 100px" onclick="mySubmit()">submit</button>
+<button type="reset" name="btnReset" style="height: 30px;width: 100px" onclick="myReset()">reset</button>
 </body>
-</html>
+
+</html>-->
