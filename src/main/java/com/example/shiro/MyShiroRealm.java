@@ -18,15 +18,17 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
+import javax.annotation.Resource;
+
 /**
  * Created by Administrator on 2018/8/31.
  */
 public class MyShiroRealm extends AuthorizingRealm {
 
-    @Autowired
+@Resource
     ISysUserService sysUserService;
 
-    @Autowired
+@Resource
     ISysRoleService sysRoleService;
     //权限校验
     @Override

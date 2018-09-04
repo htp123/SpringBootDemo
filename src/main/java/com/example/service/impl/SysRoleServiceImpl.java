@@ -5,15 +5,19 @@ import com.example.bean.SysRole;
 import com.example.mapper.SysRoleMapper;
 import com.example.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * Created by Administrator on 2018/9/1.
  */
+@Service
 public class SysRoleServiceImpl implements ISysRoleService {
-    @Autowired
-    SysRoleMapper sysRoleMapper;
+//    @Autowired
+    @Resource
+    private SysRoleMapper sysRoleMapper;
 
     @Override
     public List<SysPermission> getPermissionByRole(SysRole sysRole) {

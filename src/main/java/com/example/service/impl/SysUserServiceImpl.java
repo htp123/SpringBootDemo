@@ -5,14 +5,18 @@ import com.example.bean.SysUser;
 import com.example.mapper.SysUserMapper;
 import com.example.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * Created by Administrator on 2018/8/31.
  */
+@Service
 public class SysUserServiceImpl implements ISysUserService {
-    @Autowired
+//    @Autowired
+    @Resource
     SysUserMapper sysUserMapper;
 
     @Override
