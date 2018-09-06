@@ -14,6 +14,8 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -67,5 +69,12 @@ public class MyShiroRealm extends AuthorizingRealm {
                 getName()  //realm name
         );
         return authenticationInfo;
+    }
+
+    @Override
+    protected void clearCachedAuthenticationInfo(PrincipalCollection principals) {
+//        ShiroCertficate certficate = principals.getPrimaryPrincipal();
+//        SimplePrincipalCollection spc = new SimplePrincipalCollection()
+        super.clearCachedAuthenticationInfo(principals);
     }
 }

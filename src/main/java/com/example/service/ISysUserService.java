@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2018/8/31.
  */
-@Repository
+//@Repository
 public interface  ISysUserService {
     SysUser findByUsername(String userName);
 

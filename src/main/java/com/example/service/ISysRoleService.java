@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2018/9/1.
  */
-@Repository
+//@Repository
 public interface ISysRoleService {
 
     List<SysPermission> getPermissionByRole(SysRole sysRole);
