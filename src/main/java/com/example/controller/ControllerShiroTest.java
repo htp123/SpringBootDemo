@@ -7,6 +7,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,11 +31,10 @@ public class ControllerShiroTest {
     UserService userService;
 
     //指定默认首页
-   /* @RequestMapping(value = "/")
+ /*   @RequestMapping(value = "/")
     public String index(Model model, HttpServletResponse response) {
-        return "/login.html";
-    }
-*/
+        return "/login";
+    }*/
 
     @RequestMapping("/login")
     public String loginUser(String username,String password,HttpSession session) {
@@ -48,6 +49,55 @@ public class ControllerShiroTest {
             return "login";//返回登录页面
         }
     }
+
+//    @RequiresRoles("user")
+    @RequestMapping(value = "/checkQueryPerm" ,method = RequestMethod.POST)
+    public @ResponseBody JSONObject  checkQueryPerm(@RequestBody String request) {
+        Map<String,Object> reqMap = new HashMap<>();
+        JSONObject json = JSONObject.fromObject(request);
+        Iterator<String> iterator = json.keys();
+        while(iterator.hasNext()){
+            String key = iterator.next();
+            System.out.println(key + ":" + json.get(key));
+            reqMap.put(key,json.get(key));
+        }
+
+        System.out.println("username:"+reqMap.get("username"));
+        Subject subject = SecurityUtils.getSubject();
+        //未认证
+        if(!subject.isAuthenticated()){
+
+        }
+        //认证成功检查权限
+        if(subject.hasRole("user"))
+        {
+            System.out.println("hasRole");
+        }
+
+        JSONObject jsonResp = new JSONObject();
+        jsonResp.put("hasRole",true);
+        return jsonResp;
+    }
+
+    @RequestMapping("/userList")
+    public  String getUsers(){
+        return "userList.html";
+    }
+
+    @RequestMapping("permCheckTest")
+    @RequiresRoles("test")
+    public @ResponseBody  JSONObject permCheckTest(@RequestBody String request){
+
+        System.out.println("has role[user]");
+        return null;
+    }
+
+
+
+
+
+
+
 /*    public String login(@RequestBody Map map){
         //添加用户认证信息
         Subject subject = SecurityUtils.getSubject();

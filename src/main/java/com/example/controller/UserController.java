@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /*@RestController*/
-@Controller
+//@Controller
 public class UserController {
 
     @Autowired

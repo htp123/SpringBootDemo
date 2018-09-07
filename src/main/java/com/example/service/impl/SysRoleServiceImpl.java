@@ -21,7 +21,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
 
     @Override
     public List<SysPermission> getPermissionByRole(SysRole sysRole) {
-        List<SysPermission> permissionList = sysRoleMapper.getPermissionByRole(sysRole);
+        List<SysPermission> permissionList = sysRoleMapper.getPermissionByRoleId(sysRole.getRole());
         return permissionList;
     }
 }

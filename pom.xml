@@ -124,6 +124,13 @@
 		<artifactId>spring-boot-devtools</artifactId>
 		<optional>true</optional>
 	</dependency>
+
+	<!-- shiro AOP 注解生效配置-->
+	<!--<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-aop</artifactId>
+	</dependency>-->
+
 </dependencies>
 
 	<build>

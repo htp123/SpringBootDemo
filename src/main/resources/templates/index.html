@@ -1,54 +1,90 @@
 <!DOCTYPE html>
-<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags">
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>index</title>
-    <script type="text/javascript" src="jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-3.3.1.js"></script>
+
     <script>
-        function sendAjax() {
-            var cityname = $("#cityName").val();
+        function queryUser() {
+            debugger
+
+//            var username = $('#username').val()
+//            var password = $('#password').val()
+            debugger
+            var username = sessionStorage.getItem("username")
             var json_data={
-                "cityName":cityname
-            };
-            $.ajax(
-                {
-                    url: "users",
-                    data:{"cityName":cityname},
-                    type: "get",
-                    dataType: "json",
-                    contentType : "application/json;charset=utf-8",
-                    async:false,
-                    success: function (data) {
-                        debugger
-                        var item;
-                        $.each(data,function(i,result){
-                            debugger
-                            item=
-                                "<tr><td>"+result['id']+"</td><td>"+result['username']+"</td><td>"+result['age']+"</td></tr>";
-                            $('#userList').append(item);
-                        });
+                "username":username
+            }
+            debugger
+            $.ajax( {
+                url: "checkQueryPerm",
+                data:JSON.stringify(json_data),
+                type: "post",
+                dataType: "json",
+                contentType : "application/json;charset=utf-8",
+                async:false,
+                success: function (data) {
+                    alert("success")
+                    //跳转至查询页面
+                    debugger
+//                    window.open("userList.html",)
+                    window.location.href="userList"
+                },
+                error: function () {
+                    alert("error");
+                }
+            })
+
+        }
+        function addUser() {
+
+        }
+        function delUser() {
+
+        }
+        function updateUser() {
+
+        }
+        function testBtn() {
+            debugger
+            var username = sessionStorage.getItem("username")
+            var json_data={
+                "username":username
+            }
+            debugger
+            $.ajax( {
+                url: "permCheckTest",
+                data:JSON.stringify(json_data),
+                type: "post",
+                dataType: "json",
+                contentType : "application/json;charset=utf-8",
+                async:false,
+                success: function (data) {
+                    alert("success")
+                    debugger
+                    window.location.href="userList"
+                },
+                error: function () {
+                    alert("error");
+//                    window.location.href="403.html"
+                }
+            })
 
 
-                    },
-                    error: function () {
-                        alert("error");
-                    }
-                });
+
         }
     </script>
-
 </head>
 <body>
 
 <h1>this is index.html</h1>
 
-<input name="cityName" id="cityName" type="text"/>
-<button onclick="sendAjax()">提交</button>
-
-<table id="userList">
-    <tr><th width="5">id</th><th width="20">name</th><th width="10">age</th></tr>
-</table>
+<button onclick="queryUser()">查询</button>
+<button onclick="addUser()">新增</button>
+<button onclick="delUser()">删除</button>
+<button onclick="updateUser()">修改</button>
+<button onclick="testBtn()">test</button>
 
 </body>
 </html>

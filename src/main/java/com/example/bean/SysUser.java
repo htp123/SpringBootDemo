@@ -11,7 +11,7 @@ public class SysUser implements Serializable {
     private String userName;//unique
     private String password;
     private String salt;
-    private int locked;
+    private String locked;
 
   /*  public List<SysRole> getRoleList(){
 
@@ -50,11 +50,11 @@ public class SysUser implements Serializable {
         this.salt = salt;
     }
 
-    public int getLocked() {
+    public String getLocked() {
         return locked;
     }
 
-    public void setLocked(int locked) {
+    public void setLocked(String locked) {
         this.locked = locked;
     }
 }

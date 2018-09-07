@@ -5,15 +5,20 @@ import com.example.shiro.MyShiroRealm;
 import com.example.shiro.RetryLimitHashedCredentialsMatcher;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.mgt.SecurityManager;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by Administrator on 2018/8/31.
@@ -92,6 +97,38 @@ public class ShiroConfig {
         credentialsMatcher.setStoredCredentialsHexEncoded(false); //编码格式
         return credentialsMatcher;
     }
+
+    //配置AOP
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor
+                = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
+        return authorizationAttributeSourceAdvisor;
+    }
+
+    //等价于  pom.xml+properties AOP 配置
+    @Bean
+    @ConditionalOnMissingBean
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator defaultAAP = new DefaultAdvisorAutoProxyCreator();
+        defaultAAP.setProxyTargetClass(true);
+        return defaultAAP;
+    }
+
+
+ // 设置权限不足的情况
+   /* @Bean(name="simpleMappingExceptionResolver")
+    public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
+        SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
+        Properties mappings = new Properties();
+        mappings.setProperty("DatabaseException", "databaseError");//数据库异常处理
+        mappings.setProperty("UnauthorizedException","403");
+        r.setExceptionMappings(mappings);  // None by default
+        r.setDefaultErrorView("error");    // No default
+        r.setExceptionAttribute("ex");     // Default is "exception"
+        return r;
+    }*/
 
   /*缓存方式实现，暂时先抛开缓存
     public CredentialsMatcher credentialsMatcher(CacheManager cacheManager) {
