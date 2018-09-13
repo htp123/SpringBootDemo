@@ -1,9 +1,6 @@
 package com.example.configure;
 
-import com.example.shiro.KickoutSessionControlFilter;
-import com.example.shiro.MyFormAuthenticationFilter;
-import com.example.shiro.MyShiroRealm;
-import com.example.shiro.RetryLimitHashedCredentialsMatcher;
+import com.example.shiro.*;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -51,6 +48,8 @@ public class ShiroConfig {
         //限制同一帐号同时在线的个数。
 //        filterMap.put("kickout", kickoutSessionControlFilter());
         filterMap.put("authc",kickoutSessionControlFilter());
+
+//        filterMap.put("logout",systemLogoutFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
         //拦截器.
@@ -136,6 +135,13 @@ public class ShiroConfig {
         defaultAAP.setProxyTargetClass(true);
         return defaultAAP;
     }
+
+    //账号登出处理
+  /*  public SystemLogoutFilter systemLogoutFilter(){
+        SystemLogoutFilter systemLogoutFilter = new SystemLogoutFilter();
+        systemLogoutFilter.setRedirectUrl("/login");
+        return systemLogoutFilter;
+    }*/
 
 
     /**

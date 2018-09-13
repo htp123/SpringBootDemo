@@ -29,7 +29,14 @@
                     //跳转至查询页面
                     debugger
 //                    window.open("userList.html",)
-                    window.location.href="userList"
+                    var status = data.user_status;
+                    var msg = data.message;
+                    if(status == "300") {
+                        alert(msg)
+                        window.location.href="login"
+                    }else {
+                        window.location.href = "userList"
+                    }
                 },
                 error: function () {
                     alert("error");
