@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <script type="text/javascript" src="../static/js/jquery-3.3.1.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>login</title>
+    <script type="text/javascript" src="/static/js/jquery-3.3.1.js"></script>
     <script>
         $(function(){
             $("#submit").click(function(){
                 var username = $("#username").val()
-                sessionStorage.setItem("username",username)
-                
                 debugger
+                sessionStorage.setItem("username",username)
                 $.post(
-                    "../login",
+                    "/login",
                     {
                         username:username,
                         password:$("#password").val()
@@ -29,6 +28,11 @@
 </head>
 <body>
 错误信息：<h4 th:text="${msg}"></h4>
+<!--<p>账号：<input type="text" name="username" id="username"/></p>
+<p>密码：<input type="password" name="password" id="password"/></p>
+<p><input type="submit" value="登录" id="submit"></p>-->
+
+
 <form action="/login" method="post">
     <p>账号：<input type="text" name="username" id="username"/></p>
     <p>密码：<input type="password" name="password" id="password"/></p>

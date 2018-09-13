@@ -1,5 +1,6 @@
 package com.example.configure;
 
+import com.example.shiro.KickoutSessionControlFilter;
 import com.example.shiro.MyFormAuthenticationFilter;
 import com.example.shiro.MyShiroRealm;
 import com.example.shiro.RetryLimitHashedCredentialsMatcher;
@@ -8,7 +9,12 @@ import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +31,14 @@ import java.util.Properties;
  */
 @Configuration
 public class ShiroConfig {
+
+
+    @Value("${spring.redis.host}")
+    private String host;
+
+    @Value("${spring.redis.port}")
+    private int port;
+
     @Bean
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         System.out.println("ShiroConfiguration.shirFilter()");
@@ -34,6 +48,9 @@ public class ShiroConfig {
         //针对登录成功页面不跳转的问题
         Map filterMap = new LinkedHashMap();
         filterMap.put("authc",new MyFormAuthenticationFilter());
+        //限制同一帐号同时在线的个数。
+//        filterMap.put("kickout", kickoutSessionControlFilter());
+        filterMap.put("authc",kickoutSessionControlFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
         //拦截器.
@@ -81,6 +98,10 @@ public class ShiroConfig {
     public SecurityManager securityManager(CredentialsMatcher credentialsMatcher){
         DefaultWebSecurityManager securityManager =  new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm(credentialsMatcher));
+        // 自定义缓存实现 使用redis
+        securityManager.setCacheManager(cacheManager());
+        // 自定义session管理 使用redis
+        securityManager.setSessionManager(SessionManager());
         return securityManager;
     }
 
@@ -107,7 +128,7 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
 
-    //等价于  pom.xml+properties AOP 配置
+    //等价于  pom.xml+properties AOP 配置  开启AOP注解
     @Bean
     @ConditionalOnMissingBean
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
@@ -116,6 +137,69 @@ public class ShiroConfig {
         return defaultAAP;
     }
 
+
+    /**
+     * 限制同一账号登录同时登录人数控制
+     *
+     * @return
+     */
+    @Bean
+    public KickoutSessionControlFilter kickoutSessionControlFilter() {
+        KickoutSessionControlFilter kickoutSessionControlFilter = new KickoutSessionControlFilter();
+        kickoutSessionControlFilter.setCacheManager(cacheManager());
+        kickoutSessionControlFilter.setSessionManager(SessionManager());
+        kickoutSessionControlFilter.setKickoutAfter(false);
+        kickoutSessionControlFilter.setMaxSession(1);
+        kickoutSessionControlFilter.setKickoutUrl("/403");
+        return kickoutSessionControlFilter;
+    }
+
+    //整合redis begin
+    /**
+     * 配置shiro redisManager
+     *
+     * @return
+     */
+    public RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(host);
+        redisManager.setPort(port);
+        redisManager.setExpire(1800);// 配置过期时间
+        // redisManager.setTimeout(timeout);
+        // redisManager.setPassword(password);
+        return redisManager;
+    }
+
+    /**
+     * cacheManager 缓存 redis实现
+     *
+     * @return
+     */
+    public RedisCacheManager cacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        return redisCacheManager;
+    }
+
+    /**
+     * RedisSessionDAO shiro sessionDao层的实现 通过redis
+     */
+    public RedisSessionDAO redisSessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        return redisSessionDAO;
+    }
+
+    /**
+     * shiro session的管理
+     */
+    public DefaultWebSessionManager SessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionDAO(redisSessionDAO());
+        return sessionManager;
+    }
+
+//整合redis end
 
  // 设置权限不足的情况
    /* @Bean(name="simpleMappingExceptionResolver")

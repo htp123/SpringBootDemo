@@ -13,7 +13,7 @@ import java.util.Properties;
  * Created by Administrator on 2018/9/6.
  */
 @Configuration
-//@EnableWebMvc
+@EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     /**

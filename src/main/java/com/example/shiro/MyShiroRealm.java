@@ -12,7 +12,10 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
@@ -32,19 +35,28 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 @Resource
     ISysRoleService sysRoleService;
+
+//    private CacheManager cacheManager;
+    private SessionManager sessionManager;
     //权限校验
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        SysUser user  = (SysUser)principals.getPrimaryPrincipal();
+
 //        for(SysRole role:user.getRoleList())
+        SysUser user = (SysUser) principals.getPrimaryPrincipal();
             for(SysRole role:sysUserService.getRoleListByUser(user)){
             authorizationInfo.addRole(role.getRole());
             for(SysPermission p:sysRoleService.getPermissionByRole(role)){
                 authorizationInfo.addStringPermission(p.getPermission());
             }
         }
+
+
+
+
+
         return authorizationInfo;
     }
 
@@ -68,6 +80,7 @@ public class MyShiroRealm extends AuthorizingRealm {
                 ByteSource.Util.bytes(userInfo.getSalt()),//salt=username+salt
                 getName()  //realm name
         );
+
         return authenticationInfo;
     }
 
